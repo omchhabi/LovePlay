@@ -110,9 +110,8 @@ $('payment').onclick = async () => {
     info.replaceChildren();
 
     let message = document.createElement('p');
-    message.textContent = 'Request ' + d.id +
-      ' created. Scan this QR code to pay:';
-    info.appendChild(message);
+    message.text'RequestContent = 'Request ' + d.requestId +
+  ' created. Scan this QR code to pay:'; 
 
     let img = document.createElement('img');
     img.src = '/upi-qr.jpg';
