@@ -100,7 +100,7 @@ $('selfie').onchange=()=>{let f=$('selfie').files[0];if(f){$('preview').src=URL.
 $('register').onclick=register;$('login').onclick=login;$('createRoom').onclick=createRoom;$('joinRoom').onclick=joinRoom;$('send').onclick=sendMessage;$('message').onkeydown=e=>{if(e.key==='Enter')sendMessage()};$('videoCall').onclick=()=>startCall(true);$('voiceCall').onclick=()=>startCall(false);$('hangup').onclick=hangup;
 document.querySelectorAll('.reaction').forEach(b=>b.onclick=()=>{if(!room)return alert('Join a partner room first.');socket.emit('send-reaction',{room,emoji:b.dataset.emoji});showReaction(b.dataset.emoji,'You')});
 document.querySelectorAll('.startGame').forEach(b=>b.onclick=()=>{if(!room)return alert('Join a partner room first.');socket.emit('game-event',{room,game:b.dataset.game});$('gameInfo').textContent='You opened '+b.dataset.game+' room. Invite your partner to join!'});
-$('payment').onclick=async()=>{try{let d=await api('/api/payments/request',{plan:$('plan').value});$('paymentInfo').textContent='Request '+d.id+' created. Contact support after payment; host verification is required.'}catch(e){alert(e.message)}};
+$('payment').onclick=async()=>{try{let d=await api('/api/payments/request',{plan:$('plan').value});$('paymentInfo').textContent='Request'+d.requestiId+' created. Contact support after payment; host verification is required.'}catch(e){alert(e.message)}};
 $('logout').onclick=()=>{hangup();localStorage.removeItem('lp_token');location.reload()};
 if(token){api('/api/me').then(d=>{me=d.user;me.selfie=localStorage.getItem('lp_selfie')||'';showApp()}).catch(()=>{localStorage.removeItem('lp_token');token=null})}
 </script></body></html>
