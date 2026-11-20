@@ -76,12 +76,12 @@ h2{margin:0 0 12px;font-size:20px}h3{margin:0 0 8px}p{color:#62647a;line-height:
 </main><footer>LovePlay • 18+ • Support: 6299261372 • omprakashkalindi2005@gmail.com</footer>
 <script src="/socket.io/socket.io.js"></script><script>
 let token=localStorage.getItem('lp_token'),me=null,socket=null,room=null,pc=null,localStream=null,peerSocket=null;
+ const $=id=>document.getElementById(id);
 $('startPlaying').onclick=()=>{$('auth').scrollIntoView({behavior:'smooth'});$('name').focus()};
 $('joinFromHome').onclick=()=>$('auth').scrollIntoView({behavior:'smooth'});
 function setCharacterPhoto(inputId,avatarId,key){$(inputId).onchange=()=>{const f=$(inputId).files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{const a=$(avatarId);a.textContent='';a.classList.add('has-photo');a.style.backgroundImage='url("'+rd.result+'")';try{localStorage.setItem(key,rd.result)}catch(e){}};rd.readAsDataURL(f)};const saved=localStorage.getItem(key);if(saved){$(avatarId).textContent='';$(avatarId).classList.add('has-photo');$(avatarId).style.backgroundImage='url("'+saved+'")'}}
 setCharacterPhoto('boyPhoto','boyAvatar','lp_boy_photo');setCharacterPhoto('girlPhoto','girlAvatar','lp_girl_photo');
 
-const $=id=>document.getElementById(id);
 function showApp(){ $('auth').classList.add('hidden');$('app').classList.remove('hidden');$('status').textContent='Signed in';$('welcome').textContent='Welcome, '+me.name+'!';if(me.selfie){$('myAvatar').src=me.selfie;$('myAvatar').classList.remove('hidden')}connectSocket()}
 function authHeaders(){return {'Content-Type':'application/json','Authorization':'Bearer '+token}}
 async function api(path,body){let r=await fetch(path,{method:body?'POST':'GET',headers:authHeaders(),body:body?JSON.stringify(body):undefined});let d=await r.json();if(!r.ok)throw Error(d.error||'Request failed');return d}
