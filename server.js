@@ -17,6 +17,7 @@ const io=new Server(server,{cors:{origin:false}});
 app.use(helmet({contentSecurityPolicy:false}));
 app.use(express.json({limit:'32kb'}));
 app.use('/api',rateLimit({windowMs:15*60*1000,limit:150}));
+app.get('/health', (req, res) => {res.status(200).json({ status: 'ok' });});
 app.use(express.static(path.join(__dirname,'public')));
 const sign=u=>jwt.sign({id:u.id,email:u.email},process.env.JWT_SECRET,{expiresIn:'14d'});
 async function auth(req,res,next){try{const h=req.headers.authorization||'';const t=h.startsWith('Bearer ')?h.slice(7):'';const p=jwt.verify(t,process.env.JWT_SECRET);const q=await pool.query('select id,name,email from users where id=$1',[p.id]);if(!q.rowCount)return res.status(401).json({error:'Account not found'});req.user=q.rows[0];next()}catch(e){res.status(401).json({error:'Please sign in again'})}}
